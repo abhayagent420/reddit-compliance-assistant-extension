@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Reddit Comment Compliance Assistant",
+  "version": "0.2.0",
+  "description": "Checks Reddit comment drafts against subreddit context and suggests transparent, rule-compliant revisions.",
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://www.reddit.com/*",
+    "https://old.reddit.com/*",
+    "http://127.0.0.1:8787/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://www.reddit.com/*", "https://old.reddit.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "Check Reddit comment",
+    "default_popup": "popup.html"
+  }
+}

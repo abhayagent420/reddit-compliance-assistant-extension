@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reddit Compliance Assistant</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Comment compliance check</h1>
+      <p id="page-status" class="muted">Reading the current Reddit page…</p>
+      <div id="context-diagnostics" class="context-diagnostics" role="status">Checking post, draft, and subreddit rules…</div>
+    </header>
+
+    <section aria-labelledby="draft-heading">
+      <h2 id="draft-heading">Your draft</h2>
+      <textarea id="draft" rows="6" placeholder="Write or paste the comment you want to check."></textarea>
+    </section>
+
+    <section aria-labelledby="planner-heading">
+      <h2 id="planner-heading">Plan a new comment</h2>
+      <label for="comment-goal">What topic or point do you want to discuss?</label>
+      <textarea id="comment-goal" rows="3" maxlength="1500" placeholder="Example: Ask whether limiting concurrent subagents would prevent unexpected usage spikes."></textarea>
+      <label for="comment-type">Comment style</label>
+      <select id="comment-type">
+        <option value="helpful_answer">Helpful answer</option>
+        <option value="question">Constructive question</option>
+        <option value="personal_experience">Personal experience (only if true)</option>
+        <option value="respectful_disagreement">Respectful disagreement</option>
+        <option value="concise_observation">Concise observation</option>
+      </select>
+      <button id="generate" type="button">Generate 3 compliant ideas</button>
+    </section>
+
+    <section aria-labelledby="context-heading">
+      <h2 id="context-heading">Promotion context</h2>
+      <label for="relationship">Your relationship to what you mention</label>
+      <select id="relationship">
+        <option value="owner">I own or work on it</option>
+        <option value="affiliate">I am an affiliate or receive a benefit</option>
+        <option value="customer">I am an unaffiliated customer/user</option>
+        <option value="none">No product or service is being promoted</option>
+      </select>
+      <label for="product">What are you mentioning?</label>
+      <input id="product" type="text" maxlength="300" placeholder="Product/service and why it is relevant">
+      <label for="rules">Rules or moderator guidance</label>
+      <textarea id="rules" rows="5" placeholder="The extension loads subreddit rules automatically. If it reports that rules are missing, paste them here before analyzing."></textarea>
+      <p id="rules-status" class="muted">Checking subreddit rules…</p>
+    </section>
+
+    <div id="preflight" class="preflight" role="alert" hidden></div>
+    <div id="error" class="error" role="alert" hidden></div>
+    <button id="analyze" class="primary" type="button">Analyze draft</button>
+
+    <section id="result" aria-live="polite" hidden>
+      <div class="result-heading">
+        <h2>Assessment</h2>
+        <span id="risk-badge" class="badge"></span>
+      </div>
+      <p id="recommendation" class="recommendation"></p>
+      <p id="summary"></p>
+      <div id="concerns-wrap" hidden>
+        <h3>Rule concerns</h3>
+        <ul id="concerns"></ul>
+      </div>
+      <div id="transparency-wrap" hidden>
+        <h3>Transparency notes</h3>
+        <ul id="transparency"></ul>
+      </div>
+      <div id="ideas-wrap" hidden>
+        <h3>Comment ideas</h3>
+        <div id="ideas"></div>
+      </div>
+      <h3>Suggested comment</h3>
+      <textarea id="revision" rows="7" aria-label="Suggested comment"></textarea>
+      <div class="actions">
+        <button id="copy" type="button">Copy</button>
+        <button id="insert" type="button">Insert into Reddit editor</button>
+      </div>
+      <p class="notice">Review the suggestion and subreddit rules yourself. This tool does not submit comments or guarantee moderator approval.</p>
+    </section>
+
+    <details>
+      <summary>Connection settings</summary>
+      <label for="proxy-url">Local proxy URL</label>
+      <input id="proxy-url" type="url" value="http://127.0.0.1:8787">
+      <p class="muted">AWS credentials stay in the local proxy and are never stored in this extension.</p>
+    </details>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>
